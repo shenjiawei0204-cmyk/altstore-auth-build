@@ -9,7 +9,7 @@ This repository contains a manual build wrapper, not an official AltStore releas
 - The workflow embeds the exact public-source patch script. It checks the original SHA256 of three files before modifying them. BUILD-MANIFEST.json records the effective source hashes and workflow commit; the base commit alone does not describe this modified build.
 - The provider is fixed to https://ani.jkcoxson.com. Stored server preferences, public server lists, automatic fallback and the custom provider picker are not used. The settings page shows the fixed address.
 - Provider HTTP and WebSocket requests use a dedicated ephemeral session with redirects blocked and credential/cookie storage disabled. Apple provisioning uses its original separate session; TLS validation is not weakened.
-- The runner executes network-free Swift origin-policy probes before building the iOS app. Each dependency retains its original license, and the output includes the upstream source license and modification notice.
+- The runner executes network-free Swift origin-policy probes and typechecks the actual fixed-provider settings section against the iOS SDK before building the full app. Each dependency retains its original license, and the output includes the upstream source license and modification notice.
 
 ## Cost and access boundary
 
