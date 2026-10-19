@@ -1,4 +1,4 @@
-# Experimental unsigned, single-provider build
+# Experimental single-provider build requiring local developer signing
 
 This repository contains a manual build wrapper, not an official AltStore release. It accepts no Apple credentials, keys, pairing files, private application packages or local project data.
 
@@ -10,10 +10,12 @@ This repository contains a manual build wrapper, not an official AltStore releas
 - The provider is fixed to https://ani.jkcoxson.com. Stored server preferences, public server lists, automatic fallback and the custom provider picker are not used. The settings page shows the fixed address.
 - Provider HTTP and WebSocket requests use a dedicated ephemeral session with redirects blocked and credential/cookie storage disabled. Apple provisioning uses its original separate session; TLS validation is not weakened.
 - The runner executes network-free Swift origin-policy probes and typechecks the actual fixed-provider settings section against the iOS SDK before building the full app. Each dependency retains its original license, and the output includes the upstream source license and modification notice.
+- The migration patch hash-checks DatabaseManager.swift, then stops before migration if the shared container is missing or a database/app source resolves to its own destination. Native Foundation probes cover missing groups, same paths, normalized paths and symbolic links; no migration state is marked complete on those failures.
+- The device build disables developer signing. Before packaging, codesign embeds only the pinned public upstream entitlement template using the ad-hoc identity `-`, verifies the nested framework signatures, and independently reads the packaged Mach-O application-group entitlement. This is not an Apple developer signature or provisioning authorization. AltServer must still sign it locally with the independent test account.
 
 ## Cost and access boundary
 
-Only the standard macos-15 runner is allowed. The paid Actions budget stays at $0. The workflow is manual-only, time-limited to 45 minutes, unsigned, uses a read-only token and accepts no secrets or user inputs. Artifacts are capped at 100 MiB and retained for one day. No signing or provisioning access is enabled.
+Only the standard macos-15 runner is allowed. The paid Actions budget stays at $0. The workflow is manual-only, time-limited to 45 minutes, uses a read-only token and accepts no secrets or user inputs. Artifacts are capped at 100 MiB and retained for one day. No Apple developer signing, keychain or provisioning access is enabled; ad-hoc template preparation uses no account, certificate or private key.
 
 ## Acceptance boundary
 
