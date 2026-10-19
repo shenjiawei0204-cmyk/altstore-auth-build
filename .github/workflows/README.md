@@ -12,6 +12,7 @@ This repository contains a manual build wrapper, not an official AltStore releas
 - The runner executes network-free Swift origin-policy probes and typechecks the actual fixed-provider settings section against the iOS SDK before building the full app. Each dependency retains its original license, and the output includes the upstream source license and modification notice.
 - The migration patch hash-checks DatabaseManager.swift, then stops before migration if the shared container is missing or a database/app source resolves to its own destination. Native Foundation probes cover missing groups, same paths, normalized paths and symbolic links; no migration state is marked complete on those failures.
 - The device build disables developer signing. Before packaging, codesign embeds only the pinned public upstream entitlement template using the ad-hoc identity `-`, verifies the nested framework signatures, and independently reads the packaged Mach-O application-group entitlement. This is not an Apple developer signature or provisioning authorization. AltServer must still sign it locally with the independent test account.
+- The existing AltWidgetExtension is retained and receives its separately hash-verified, application-group-only template before the main app is processed. Unknown extensions remain blocked. A small real iOS Mach-O ad-hoc signing/readback probe exercises both templates before the full build.
 
 ## Cost and access boundary
 
